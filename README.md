@@ -1,6 +1,4 @@
-# README.md
-
-## Bank Card Management System
+# Bank Card Management System
 
 A secure backend system for managing bank cards, built with **Java 17**, **Spring Boot**, **PostgreSQL**, **Liquibase**, and **Docker**.
 
@@ -92,6 +90,6 @@ In a real-world project, this file would be excluded via `.gitignore` and manage
 
 ### Contact
 Author: Anna Sozonova  
-Email: annasozonova@example.com
+Email: sozonovanna@gmail.com
 
 ---
