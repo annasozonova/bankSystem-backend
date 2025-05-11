@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+      http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="004" author="anna">
+
+        <!-- If table already exists — check changeSet as done -->
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
+            <not>
+                <tableExists tableName="cards" schemaName="public"/>
+            </not>
+        </preConditions>
+
+        <!-- Create cards table if it doesn't exist -->
+        <createTable tableName="cards">
+            <!-- Card UUID primary key -->
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <!-- Encrypted card number (binary) -->
+            <column name="card_number_enc" type="BYTEA">
+                <constraints nullable="false"/>
+            </column>
+            <!-- Masked card number for display (e.g. **** **** **** 1234) -->
+            <column name="card_mask" type="VARCHAR(19)">
+                <constraints nullable="false"/>
+            </column>
+            <!-- Foreign key to users.id -->
+            <column name="owner_id" type="UUID">
+                <constraints nullable="false"
+                             foreignKeyName="fk_cards_users"
+                             references="users(id)"/>
+            </column>
+            <!-- Expiration date of the card -->
+            <column name="expiration_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <!-- Status of card: uses enum type card_status -->
+            <column name="status" type="public.card_status">
+                <constraints nullable="false"/>
+            </column>
+            <!-- Current balance on the card -->
+            <column name="balance" type="NUMERIC(19,2)">
+                <constraints nullable="false"/>
+            </column>
+            <!-- Audit timestamps -->
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+   http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="001-create-user-roles" author="anna">
+
+        <!-- If table already exists — check changeSet as done -->
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
+            <not>
+                <tableExists tableName="user_roles" schemaName="public"/>
+            </not>
+        </preConditions>
+
+        <!-- Create join table for users and roles many-to-many relationship if it doesn't exist-->
+        <createTable tableName="user_roles">
+
+            <!-- User foreign key -->
+            <column name="user_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- Role foreign key -->
+            <column name="role_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Composite primary key -->
+        <addPrimaryKey
+                tableName="user_roles"
+                columnNames="user_id, role_id"
+                constraintName="pk_user_roles"/>
+
+        <!-- Foreign key to users -->
+        <addForeignKeyConstraint
+                baseTableName="user_roles"
+                baseColumnNames="user_id"
+                referencedTableName="users"
+                referencedColumnNames="id"
+                constraintName="fk_user_roles_user"
+                onDelete="CASCADE"/>
+
+        <!-- Foreign key to roles -->
+        <addForeignKeyConstraint
+                baseTableName="user_roles"
+                baseColumnNames="role_id"
+                referencedTableName="roles"
+                referencedColumnNames="id"
+                constraintName="fk_user_roles_role"
+                onDelete="CASCADE"/>
+    </changeSet>
+
+</databaseChangeLog>

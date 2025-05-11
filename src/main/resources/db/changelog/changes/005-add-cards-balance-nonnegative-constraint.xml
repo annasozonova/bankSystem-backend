@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+      http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="005" author="anna">
+
+        <!-- If constraint already exists — check changeSet as done -->
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
+                <sqlCheck expectedResult="0">
+                    SELECT COUNT(*)
+                    FROM information_schema.table_constraints
+                    WHERE table_schema = 'public'
+                    AND table_name = 'cards'
+                    AND constraint_name = 'chk_cards_balance_nonnegative'
+                </sqlCheck>
+        </preConditions>
+
+        <sql>
+            ALTER TABLE public.cards
+                ADD CONSTRAINT chk_cards_balance_nonnegative
+                    CHECK (balance >= 0);
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

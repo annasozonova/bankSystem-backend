@@ -1,0 +1,35 @@
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.properties
+mvnw
+mvnw.cmd
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+out/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Environment secrets
+.env
+
+# Docker
+*.pid
+docker-compose.override.yml
+
+# Test output
+coverage/
+test-output/
+jacoco.exec
+
+# Temporary or generated files
+hs_err_pid*

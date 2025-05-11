@@ -1,0 +1,33 @@
+services:
+  db:
+    image: postgres:15
+    container_name: bank_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: BankSystem
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - bank-net
+
+  app:
+    build: .
+    container_name: bank_app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    env_file:
+      - .env
+    networks:
+      - bank-net
+
+volumes:
+  pgdata:
+
+networks:
+  bank-net:

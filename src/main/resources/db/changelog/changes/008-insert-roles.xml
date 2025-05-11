@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+       http://www.liquibase.org/xml/ns/dbchangelog
+       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <!-- 1) Create uuid-ossp extension if missing -->
+    <changeSet id="008-create-uuid-ossp" author="anna" dbms="postgresql">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT count(*) FROM pg_extension WHERE extname='uuid-ossp'
+            </sqlCheck>
+        </preConditions>
+        <sql>CREATE EXTENSION "uuid-ossp";</sql>
+    </changeSet>
+
+    <!-- 2) Insert USER role if missing -->
+    <changeSet id="009-insert-user-role" author="anna">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM roles WHERE name='USER'
+            </sqlCheck>
+        </preConditions>
+        <insert tableName="roles">
+            <column name="id" valueComputed="uuid_generate_v4()"/>
+            <column name="name" value="USER"/>
+        </insert>
+    </changeSet>
+
+    <!-- 3) Insert ADMIN role if missing -->
+    <changeSet id="0010-insert-admin-role" author="anna">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM roles WHERE name='ADMIN'
+            </sqlCheck>
+        </preConditions>
+        <insert tableName="roles">
+            <column name="id" valueComputed="uuid_generate_v4()"/>
+            <column name="name" value="ADMIN"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
