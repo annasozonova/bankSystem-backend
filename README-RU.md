@@ -1,5 +1,4 @@
-# README-RU.md
-## Система управления банковскими картами
+# Система управления банковскими картами
 
 Надёжная backend-система для работы с банковскими картами на базе **Java 17**, **Spring Boot**, **PostgreSQL**, **Liquibase** и **Docker**.
 
@@ -91,4 +90,4 @@ Swagger UI: `http://localhost:8080/swagger-ui.html`
 
 ### Контакты
 Автор: Анна Созонова  
-Email: annasozonova@example.com
+Email: sozonovanna@gmail.com
